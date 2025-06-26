@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,13 +9,12 @@ interface CharacterProps {
 }
 
 export const Character: React.FC<CharacterProps> = ({ position }) => {
-  const [hovered, setHovered] = useState(false);
   const groupRef = useRef<THREE.Group>(null);
   const { openCharacterDialog } = useGameStore();
 
-  // Load shiba model
-  const { scene } = useGLTF("/models/shiba/scene.gltf");
-  const shibaRef = useRef<THREE.Group>(null);
+  // Load monk model
+  const { scene } = useGLTF("/models/monk_character/scene.gltf");
+  const monkRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     if (groupRef.current) {
@@ -24,9 +23,9 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
         position[1] + Math.sin(state.clock.getElapsedTime()) * 0.05;
     }
 
-    if (shibaRef.current) {
-      // Gentle rotation animation for the shiba
-      shibaRef.current.rotation.y =
+    if (monkRef.current) {
+      // Gentle rotation animation for the monk
+      monkRef.current.rotation.y =
         Math.sin(state.clock.getElapsedTime() * 0.5) * 0.3;
     }
   });
@@ -68,33 +67,19 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
   };
 
   return (
-    <group
-      ref={groupRef}
-      position={position}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-      onClick={handleClick}
-    >
+    <group ref={groupRef} position={position} onClick={handleClick}>
       {/* Shiba model */}
       <primitive
-        ref={shibaRef}
+        ref={monkRef}
         object={scene.clone()}
         position={[0, 0.5, 0]}
         scale={[0.8, 0.8, 0.8]}
         castShadow
         receiveShadow
       />
-
-      {/* Hover indicator */}
-      {hovered && (
-        <mesh position={[0, 1.5, 0]}>
-          <ringGeometry args={[0.4, 0.5, 16]} />
-          <meshBasicMaterial color="#ff8c42" transparent opacity={0.6} />
-        </mesh>
-      )}
     </group>
   );
 };
 
 // Preload the GLTF model
-useGLTF.preload("/models/shiba/scene.gltf");
+useGLTF.preload("/models/monk_character/scene.gltf");

@@ -37,7 +37,13 @@ export const LogBench: React.FC<LogBenchProps> = ({
       >
         <cylinderGeometry args={[0.25, 0.3, 2]} />
         <meshStandardMaterial
-          color={hovered ? "#A0522D" : "#8B4513"}
+          color={
+            hovered && !isOccupied
+              ? "#D2691E"
+              : isOccupied
+              ? "#A0522D"
+              : "#8B4513"
+          }
           roughness={0.8}
         />
       </mesh>
@@ -47,14 +53,6 @@ export const LogBench: React.FC<LogBenchProps> = ({
         <mesh position={[0, 0.8, 0]}>
           <sphereGeometry args={[0.1, 8, 8]} />
           <meshBasicMaterial color="#4fc3f7" transparent opacity={0.6} />
-        </mesh>
-      )}
-
-      {/* Hover indicator */}
-      {hovered && !isOccupied && (
-        <mesh position={[0, 0.6, 0]}>
-          <ringGeometry args={[0.3, 0.4, 16]} />
-          <meshBasicMaterial color="#ff8c42" transparent opacity={0.4} />
         </mesh>
       )}
     </group>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useGameStore } from '../store/gameStore';
+import React, { useState } from "react";
+import { useGameStore } from "../store/gameStore";
 
 interface PortfolioBoardProps {
   position: [number, number, number];
@@ -33,8 +33,8 @@ export const PortfolioBoard: React.FC<PortfolioBoardProps> = ({ position }) => {
         scale={hovered ? 1.05 : 1}
       >
         <boxGeometry args={[1.5, 2, 0.1]} />
-        <meshStandardMaterial 
-          color={hovered ? "#8B4513" : "#654321"} 
+        <meshStandardMaterial
+          color={hovered ? "#A0522D" : "#654321"}
           roughness={0.7}
         />
       </mesh>
@@ -68,14 +68,6 @@ export const PortfolioBoard: React.FC<PortfolioBoardProps> = ({ position }) => {
         <boxGeometry args={[0.6, 0.15, 0.02]} />
         <meshBasicMaterial color="#e8e8e8" />
       </mesh>
-
-      {/* Hover indicator */}
-      {hovered && (
-        <mesh position={[0, 2.8, 0]}>
-          <ringGeometry args={[0.3, 0.4, 16]} />
-          <meshBasicMaterial color="#ff8c42" transparent opacity={0.6} />
-        </mesh>
-      )}
     </group>
   );
 };

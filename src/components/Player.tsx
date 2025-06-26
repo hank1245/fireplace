@@ -1,12 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import { Vector3 } from "three";
 import * as THREE from "three";
 import { useGameStore } from "../store/gameStore";
 
 export const Player: React.FC = () => {
   const playerRef = useRef<THREE.Group>(null);
+  const knightRef = useRef<THREE.Group>(null);
   const { setPlayerPosition } = useGameStore();
+
+  // Load knight model
+  const { scene } = useGLTF("/models/knight_character/scene.gltf");
   const [keys, setKeys] = useState({
     w: false,
     a: false,
@@ -76,6 +81,11 @@ export const Player: React.FC = () => {
       if (moveVector.length() > 0) {
         const angle = Math.atan2(moveVector.x, moveVector.z);
         playerRef.current.rotation.y = angle;
+
+        // Knight 모델도 같은 방향으로 회전
+        if (knightRef.current) {
+          knightRef.current.rotation.y = angle;
+        }
       }
     }
 
@@ -95,47 +105,15 @@ export const Player: React.FC = () => {
 
   return (
     <group ref={playerRef} position={playerPosition.current}>
-      {/* 플레이어 몸체 */}
-      <mesh position={[0, 0.8, 0]} castShadow>
-        <capsuleGeometry args={[0.3, 1.2, 8, 16]} />
-        <meshStandardMaterial color="#2196f3" />
-      </mesh>
-
-      {/* 플레이어 머리 */}
-      <mesh position={[0, 1.7, 0]} castShadow>
-        <sphereGeometry args={[0.25, 16, 16]} />
-        <meshStandardMaterial color="#ffb74d" />
-      </mesh>
-
-      {/* 눈 */}
-      <mesh position={[-0.1, 1.8, 0.2]} castShadow>
-        <sphereGeometry args={[0.03, 8, 8]} />
-        <meshStandardMaterial color="#000000" />
-      </mesh>
-      <mesh position={[0.1, 1.8, 0.2]} castShadow>
-        <sphereGeometry args={[0.03, 8, 8]} />
-        <meshStandardMaterial color="#000000" />
-      </mesh>
-
-      {/* 팔 */}
-      <mesh position={[-0.5, 0.8, 0]} castShadow>
-        <capsuleGeometry args={[0.1, 0.8, 8, 16]} />
-        <meshStandardMaterial color="#ffb74d" />
-      </mesh>
-      <mesh position={[0.5, 0.8, 0]} castShadow>
-        <capsuleGeometry args={[0.1, 0.8, 8, 16]} />
-        <meshStandardMaterial color="#ffb74d" />
-      </mesh>
-
-      {/* 다리 */}
-      <mesh position={[-0.15, -0.2, 0]} castShadow>
-        <capsuleGeometry args={[0.12, 0.8, 8, 16]} />
-        <meshStandardMaterial color="#1976d2" />
-      </mesh>
-      <mesh position={[0.15, -0.2, 0]} castShadow>
-        <capsuleGeometry args={[0.12, 0.8, 8, 16]} />
-        <meshStandardMaterial color="#1976d2" />
-      </mesh>
+      {/* Knight 모델 */}
+      <primitive
+        ref={knightRef}
+        object={scene.clone()}
+        position={[0, 0, 0]}
+        scale={[1, 1, 1]}
+        castShadow
+        receiveShadow
+      />
 
       {/* 그림자를 위한 바닥 마커 */}
       <mesh
@@ -149,3 +127,6 @@ export const Player: React.FC = () => {
     </group>
   );
 };
+
+// Preload the GLTF model
+useGLTF.preload("/models/knight_character/scene.gltf");
