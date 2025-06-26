@@ -1,6 +1,6 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment, OrbitControls } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { Scene } from "./components/Scene";
 import { UI } from "./components/UI";
 import "./App.css";
@@ -22,7 +22,6 @@ function App() {
           maxZoom={100}
           zoomSpeed={0.5}
         />
-        <Environment preset="dawn" />
         <Scene />
       </Canvas>
       <UI />

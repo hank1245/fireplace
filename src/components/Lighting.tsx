@@ -1,16 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export const Lighting: React.FC = () => {
+interface LightingProps {
+  params?: {
+    ambientIntensity: number;
+    ambientColor: string;
+    directionalIntensity: number;
+    directionalColor: string;
+    hemisphereIntensity: number;
+    hemisphereColorSky: string;
+    hemisphereColorGround: string;
+    fillLightIntensity: number;
+    fillLightColor: string;
+  };
+}
+
+export const Lighting: React.FC<LightingProps> = ({ params }) => {
+  const defaultParams = {
+    ambientIntensity: 0.4,
+    ambientColor: "#6a7585",
+    directionalIntensity: 0.8,
+    directionalColor: "#c8d5e6",
+    hemisphereIntensity: 0.6,
+    hemisphereColorSky: "#4a5568",
+    hemisphereColorGround: "#2d3748",
+    fillLightIntensity: 0.3,
+    fillLightColor: "#b8c5d6",
+  };
+
+  const lightParams = params || defaultParams;
+
+  // 디버깅: params 변경 시 로그
+  useEffect(() => {
+    console.log("Lighting params updated:", lightParams);
+  }, [lightParams]);
+
   return (
     <>
       {/* Ambient light for general scene illumination - increased intensity */}
-      <ambientLight intensity={0.4} color="#6a7585" />
+      <ambientLight
+        intensity={lightParams.ambientIntensity}
+        color={lightParams.ambientColor}
+      />
 
       {/* Moon light - increased intensity */}
       <directionalLight
         position={[10, 20, 5]}
-        intensity={0.8}
-        color="#c8d5e6"
+        intensity={lightParams.directionalIntensity}
+        color={lightParams.directionalColor}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-far={50}
@@ -21,13 +57,19 @@ export const Lighting: React.FC = () => {
       />
 
       {/* Additional ambient lighting for brighter atmosphere */}
-      <hemisphereLight args={["#4a5568", "#2d3748", 0.6]} />
+      <hemisphereLight
+        args={[
+          lightParams.hemisphereColorSky,
+          lightParams.hemisphereColorGround,
+          lightParams.hemisphereIntensity,
+        ]}
+      />
 
       {/* Soft fill light for better visibility */}
       <directionalLight
         position={[-5, 10, -5]}
-        intensity={0.3}
-        color="#b8c5d6"
+        intensity={lightParams.fillLightIntensity}
+        color={lightParams.fillLightColor}
       />
     </>
   );
