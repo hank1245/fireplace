@@ -1,0 +1,151 @@
+.ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.ui-overlay > * {
+  pointer-events: all;
+}
+
+.portfolio-modal, .dialog-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  color: white;
+  max-width: 80vw;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.portfolio-content h2, .dialog-content {
+  margin-bottom: 1.5rem;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.portfolio-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.portfolio-item h3 {
+  margin-bottom: 0.5rem;
+  color: #ff8c42;
+}
+
+.portfolio-item a {
+  color: #4fc3f7;
+  text-decoration: none;
+}
+
+.portfolio-item a:hover {
+  text-decoration: underline;
+}
+
+.tech-stack {
+  font-size: 0.8rem;
+  color: #a0a0a0;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+.portfolio-link {
+  background: none;
+  border: 1px solid #4fc3f7;
+  color: #4fc3f7;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.portfolio-link:hover {
+  background: #4fc3f7;
+  color: white;
+}
+
+.dialog-options {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.dialog-options button, .portfolio-modal button, .dialog-modal button {
+  background: #ff8c42;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.dialog-options button:hover, .portfolio-modal button:hover, .dialog-modal button:hover {
+  background: #ff7a28;
+  transform: translateY(-2px);
+}
+
+.instructions {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .portfolio-modal, .dialog-modal {
+    max-width: 95vw;
+    max-height: 90vh;
+    padding: 1rem;
+  }
+  
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .instructions {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    font-size: 0.8rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .dialog-options {
+    flex-direction: column;
+  }
+  
+  .dialog-options button, .portfolio-modal button, .dialog-modal button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Canvas } from "@react-three/fiber";
+import { Environment, OrbitControls } from "@react-three/drei";
+import { Scene } from "./components/Scene";
+import { UI } from "./components/UI";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Canvas
+        shadows
+        camera={{ position: [0, 5, 10], fov: 50 }}
+        gl={{ antialias: true }}
+      >
+        {/* Zoom 기능만 활성화된 OrbitControls */}
+        <OrbitControls
+          enableRotate={false}
+          enablePan={false}
+          enableZoom={true}
+          minZoom={20}
+          maxZoom={100}
+          zoomSpeed={0.5}
+        />
+        <Environment preset="dawn" />
+        <Scene />
+      </Canvas>
+      <UI />
     </div>
   );
 }
