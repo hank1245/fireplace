@@ -93,7 +93,7 @@ export const AudioSystem: React.FC = () => {
   const playLofiMusic = () => {
     // Load and play actual music file from public/music folder
     try {
-      const audio = new Audio("/music/Best of lofi 2.wav");
+      const audio = new Audio("/music/lofimusic.wav");
       audio.loop = true;
       audio.volume = 0.3; // Set volume to 30% for ambient background
 
