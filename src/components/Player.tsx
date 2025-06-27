@@ -1,17 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
 import { Vector3 } from "three";
 import * as THREE from "three";
 import { useGameStore } from "../store/gameStore";
+import { KnightCharacter } from "./models/Knight_character";
 
 export const Player: React.FC = () => {
   const playerRef = useRef<THREE.Group>(null);
   const knightRef = useRef<THREE.Group>(null);
   const { setPlayerPosition } = useGameStore();
-
-  // Load knight model
-  const { scene } = useGLTF("/models/knight_character/scene.gltf");
   const [keys, setKeys] = useState({
     w: false,
     a: false,
@@ -106,27 +103,19 @@ export const Player: React.FC = () => {
   return (
     <group ref={playerRef} position={playerPosition.current}>
       {/* Knight 모델 */}
-      <primitive
+      <KnightCharacter
         ref={knightRef}
-        object={scene.clone()}
-        position={[0, 0, 0]}
+        position={[0, -0.6, 0]}
         scale={[1, 1, 1]}
         castShadow
         receiveShadow
       />
 
       {/* 그림자를 위한 바닥 마커 */}
-      <mesh
-        position={[0, 0.01, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        receiveShadow
-      >
+      <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <circleGeometry args={[0.4, 16]} />
         <meshStandardMaterial color="#333333" transparent opacity={0.3} />
       </mesh>
     </group>
   );
 };
-
-// Preload the GLTF model
-useGLTF.preload("/models/knight_character/scene.gltf");

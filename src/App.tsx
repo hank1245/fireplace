@@ -15,7 +15,7 @@ function App() {
       >
         {/* Zoom 기능만 활성화된 OrbitControls */}
         <OrbitControls
-          enableRotate={false}
+          enableRotate={true}
           enablePan={false}
           enableZoom={true}
           minZoom={20}

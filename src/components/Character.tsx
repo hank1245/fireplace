@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useGameStore } from "../store/gameStore";
+import { MonkCharacter } from "./models/Monk_character";
 
 interface CharacterProps {
   position: [number, number, number];
@@ -12,8 +12,6 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
   const groupRef = useRef<THREE.Group>(null);
   const { openCharacterDialog } = useGameStore();
 
-  // Load monk model
-  const { scene } = useGLTF("/models/monk_character/scene.gltf");
   const monkRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
@@ -68,10 +66,9 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
 
   return (
     <group ref={groupRef} position={position} onClick={handleClick}>
-      {/* Shiba model */}
-      <primitive
+      {/* Monk model */}
+      <MonkCharacter
         ref={monkRef}
-        object={scene.clone()}
         position={[0, 0.5, 0]}
         scale={[0.8, 0.8, 0.8]}
         castShadow
@@ -80,6 +77,3 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
     </group>
   );
 };
-
-// Preload the GLTF model
-useGLTF.preload("/models/monk_character/scene.gltf");
