@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { Fireplace } from "./Fireplace";
 import { Forest } from "./Forest";
 import { LogBench } from "./LogBench";
@@ -7,13 +7,12 @@ import { Lighting } from "./Lighting";
 import { PortfolioBoard } from "./PortfolioBoard";
 import { AudioSystem } from "./AudioSystem";
 import { Player } from "./Player";
-import { SkyBox } from "./SkyBox";
-import { GuiControls } from "./GuiControls";
+import { Sky } from "@react-three/drei";
 
 export const Scene: React.FC = () => {
   const [lightingParams, setLightingParams] = useState({
-    ambientIntensity: 0.4,
-    ambientColor: "#6a7585",
+    ambientIntensity: 1.8,
+    ambientColor: "white",
     directionalIntensity: 0.8,
     directionalColor: "#c8d5e6",
     hemisphereIntensity: 0.6,
@@ -23,63 +22,29 @@ export const Scene: React.FC = () => {
     fillLightColor: "#b8c5d6",
   });
 
-  const [skyBoxParams, setSkyBoxParams] = useState({
-    topColor: "#87ceeb",
-    horizonColor: "#ff69b4",
-    bottomColor: "#4b0082",
-    offset: 0.2,
-    exponent: 0.8,
-  });
-
-  const handleLightingChange = useCallback((params: typeof lightingParams) => {
-    console.log("Scene: Lighting params changed", params);
-    setLightingParams(params);
-  }, []);
-
-  const handleSkyBoxChange = useCallback((params: typeof skyBoxParams) => {
-    console.log("Scene: SkyBox params changed", params);
-    setSkyBoxParams(params);
-  }, []);
   return (
     <>
-      <GuiControls
-        lightingParams={lightingParams}
-        skyBoxParams={skyBoxParams}
-        onLightingChange={handleLightingChange}
-        onSkyBoxChange={handleSkyBoxChange}
+      {/* 석양을 위한 태양 위치 조정 */}
+      <Sky
+        sunPosition={[0, -0.25, -10]}
+        turbidity={60}
+        rayleigh={3}
+        mieCoefficient={0.005}
+        mieDirectionalG={0.7}
       />
-      <SkyBox params={skyBoxParams} />
       <Lighting params={lightingParams} />
       <Forest />
       <Fireplace />
       {/* 통나무들을 모닥불 중심으로 원형 배치 */}
-      <LogBench
-        position={[0, 0, 3]}
-        rotation={[0, 0, 0] as [number, number, number]}
-      />
-      <LogBench
-        position={[2.6, 0, 1.5]}
-        rotation={[0, Math.PI / 3, 0] as [number, number, number]}
-      />
-      <LogBench
-        position={[2.6, 0, -1.5]}
-        rotation={[0, -Math.PI / 3, 0] as [number, number, number]}
-      />
-      <LogBench
-        position={[0, 0, -3]}
-        rotation={[0, Math.PI, 0] as [number, number, number]}
-      />
-      <LogBench
-        position={[-2.6, 0, -1.5]}
-        rotation={[0, (-Math.PI * 2) / 3, 0] as [number, number, number]}
-      />
-      <LogBench
-        position={[-2.6, 0, 1.5]}
-        rotation={[0, (Math.PI * 2) / 3, 0] as [number, number, number]}
-      />
+
+      <LogBench position={[-2.5, 0, 0]} rotation={[0, 0, 0]} />
+      <LogBench position={[2.5, 0, 0]} rotation={[0, 0, 0]} />
+      <LogBench position={[0, 0, 3]} rotation={[0, Math.PI / 2, 0]} />
+      <LogBench position={[0, 0, -3]} rotation={[0, Math.PI / 2, 0]} />
+
       <Character position={[4, 0, 0]} />
       <PortfolioBoard position={[-4, 0, -3]} />
-      <AudioSystem />
+      {/* <AudioSystem /> */}
       <Player />
 
       {/* Ground */}

@@ -29,11 +29,6 @@ export const Lighting: React.FC<LightingProps> = ({ params }) => {
 
   const lightParams = params || defaultParams;
 
-  // 디버깅: params 변경 시 로그
-  useEffect(() => {
-    console.log("Lighting params updated:", lightParams);
-  }, [lightParams]);
-
   return (
     <>
       {/* Ambient light for general scene illumination - increased intensity */}
@@ -54,22 +49,6 @@ export const Lighting: React.FC<LightingProps> = ({ params }) => {
         shadow-camera-right={20}
         shadow-camera-top={20}
         shadow-camera-bottom={-20}
-      />
-
-      {/* Additional ambient lighting for brighter atmosphere */}
-      <hemisphereLight
-        args={[
-          lightParams.hemisphereColorSky,
-          lightParams.hemisphereColorGround,
-          lightParams.hemisphereIntensity,
-        ]}
-      />
-
-      {/* Soft fill light for better visibility */}
-      <directionalLight
-        position={[-5, 10, -5]}
-        intensity={lightParams.fillLightIntensity}
-        color={lightParams.fillLightColor}
       />
     </>
   );

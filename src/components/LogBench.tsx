@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 import { useGameStore } from "../store/gameStore";
+import * as THREE from "three";
 
 interface LogBenchProps {
   position: [number, number, number];
@@ -14,6 +16,21 @@ export const LogBench: React.FC<LogBenchProps> = ({
   const { currentSeat, setSeat } = useGameStore();
   const seatId = `bench-${position.join("-")}`;
   const isOccupied = currentSeat === seatId;
+  const modelRef = useRef<THREE.Group>(null);
+
+  // Load bench model
+  const { scene } = useGLTF("/models/bench/scene.gltf");
+
+  useEffect(() => {
+    if (modelRef.current && scene) {
+      // 모델의 바운딩 박스를 계산하여 중심점 조정
+      const box = new THREE.Box3().setFromObject(scene);
+      const center = box.getCenter(new THREE.Vector3());
+
+      // 모델을 중심점으로 이동시켜 회전 중심을 맞춤
+      scene.position.sub(center);
+    }
+  }, [scene]);
 
   const handleClick = () => {
     if (isOccupied) {
@@ -25,36 +42,22 @@ export const LogBench: React.FC<LogBenchProps> = ({
 
   return (
     <group position={position} rotation={rotation}>
-      {/* Main log - 가로로 누운 원통 형태 */}
-      <mesh
-        castShadow
-        receiveShadow
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-        onClick={handleClick}
-        scale={hovered ? 1.05 : 1}
-        rotation={[0, 0, Math.PI / 2]} // 가로로 눕힘
-      >
-        <cylinderGeometry args={[0.25, 0.3, 2]} />
-        <meshStandardMaterial
-          color={
-            hovered && !isOccupied
-              ? "#D2691E"
-              : isOccupied
-              ? "#A0522D"
-              : "#8B4513"
-          }
-          roughness={0.8}
+      {/* 회전을 위한 추가 group */}
+      <group ref={modelRef}>
+        {/* Bench model */}
+        <primitive
+          object={scene.clone()}
+          castShadow
+          receiveShadow
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+          onClick={handleClick}
+          scale={1}
         />
-      </mesh>
-
-      {/* Sitting indicator */}
-      {isOccupied && (
-        <mesh position={[0, 0.8, 0]}>
-          <sphereGeometry args={[0.1, 8, 8]} />
-          <meshBasicMaterial color="#4fc3f7" transparent opacity={0.6} />
-        </mesh>
-      )}
+      </group>
     </group>
   );
 };
+
+// Preload the GLTF model
+useGLTF.preload("/models/bench/scene.gltf");
