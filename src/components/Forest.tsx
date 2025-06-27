@@ -19,7 +19,7 @@ export const Forest: React.FC = () => {
       treePositions.push({
         position: new Vector3(x, -0.4, z),
         scale,
-        rotation: [0, 0, 0], // 랜덤 회전
+        rotation: [0, 0, 0],
       });
     }
 
@@ -50,10 +50,9 @@ export const Forest: React.FC = () => {
     return treePositions;
   }, []);
 
-  // Dry grass (40개)
   const grassPatches = useMemo(() => {
     const grassPositions = [];
-    const numGrass = 40;
+    const numGrass = 50;
 
     for (let i = 0; i < numGrass; i++) {
       const x = (Math.random() - 0.5) * 20;
@@ -76,24 +75,24 @@ export const Forest: React.FC = () => {
   // Rocks (15개)
   const rocks = useMemo(() => {
     const rockPositions = [];
-    const numRocks = 15;
+    const numRocks = 20;
 
     const predefinedPositions = [
-      [4, 0.2, 3],
-      [-3, 0.15, 4],
-      [2, 0.1, -5],
-      [-8, 0.25, -2],
-      [7, 0.18, -6],
-      [-5, 0.12, 8],
-      [10, 0.3, 2],
-      [-12, 0.2, 5],
+      [4, 0.05, 3],
+      [-3, 0.05, 4],
+      [2, 0.05, -5],
+      [-8, 0.05, -2],
+      [7, 0.05, -6],
+      [-5, 0.05, 8],
+      [10, 0.05, 2],
+      [-12, 0.05, 5],
     ];
 
     // 기존 위치들 추가
     predefinedPositions.forEach((pos) => {
       rockPositions.push({
-        position: new Vector3(pos[0], pos[1], pos[2]),
-        scale: 0.5 + Math.random() * 0.8,
+        position: new Vector3(pos[0], pos[1] - Math.random() * 0.05, pos[2]),
+        scale: 1.2 + Math.random() * 0.4,
         rotation: [0, 0, 0],
       });
     });
@@ -106,8 +105,8 @@ export const Forest: React.FC = () => {
       // 중앙 모닥불 주변은 피하기
       if (Math.sqrt(x * x + z * z) > 3) {
         rockPositions.push({
-          position: new Vector3(x, 0.1 + Math.random() * 0.2, z),
-          scale: 0.4 + Math.random() * 0.6,
+          position: new Vector3(x, -0.05 + Math.random() * 0.05, z),
+          scale: 1.2 + Math.random() * 0.3,
           rotation: [0, 0, 0],
         });
       }
