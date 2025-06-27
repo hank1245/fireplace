@@ -6,11 +6,9 @@ import { DryGrass } from "./models/Dry_grass";
 import { Rock } from "./models/Rock";
 
 export const Forest: React.FC = () => {
-  // Pine trees (가장 많이 배치 - 60개)
   const pineTrees = useMemo(() => {
     const treePositions = [];
-    const numTrees = 30; // pine tree가 3배 더 많게
-
+    const numTrees = 25;
     for (let i = 0; i < numTrees; i++) {
       const angle = (i / numTrees) * Math.PI * 2;
       const radius = 12 + Math.random() * 6;
@@ -28,17 +26,16 @@ export const Forest: React.FC = () => {
     return treePositions;
   }, []);
 
-  // Dead trees (20개)
   const deadTrees = useMemo(() => {
     const treePositions = [];
-    const numTrees = 10;
+    const numTrees = 15;
 
     for (let i = 0; i < numTrees; i++) {
       const angle = (i / numTrees) * Math.PI * 2;
       const radius = 10 + Math.random() * 10;
       const x = Math.cos(angle) * radius - 5;
       const z = Math.sin(angle) * radius + 6;
-      const scale = 0.6 + Math.random() * 0.1;
+      const scale = 0.9 + Math.random() * 0.1;
 
       // 중앙 모닥불 주변은 피하기
       if (Math.sqrt(x * x + z * z) > 4) {
