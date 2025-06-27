@@ -14,20 +14,6 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
 
   const monkRef = useRef<THREE.Group>(null);
 
-  useFrame((state) => {
-    if (groupRef.current) {
-      // Gentle bobbing animation
-      groupRef.current.position.y =
-        position[1] + Math.sin(state.clock.getElapsedTime()) * 0.05;
-    }
-
-    if (monkRef.current) {
-      // Gentle rotation animation for the monk
-      monkRef.current.rotation.y =
-        Math.sin(state.clock.getElapsedTime() * 0.5) * 0.3;
-    }
-  });
-
   const handleClick = () => {
     openCharacterDialog({
       text: "안녕하세요! 저는 이 캠핑장의 주인이에요. 무엇을 도와드릴까요?",
@@ -69,7 +55,7 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
       {/* Monk model */}
       <MonkCharacter
         ref={monkRef}
-        position={[0, 0.5, 0]}
+        position={[0, 0, 0]}
         scale={[0.8, 0.8, 0.8]}
         castShadow
         receiveShadow

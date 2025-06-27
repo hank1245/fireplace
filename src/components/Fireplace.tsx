@@ -56,13 +56,6 @@ export const Fireplace: React.FC = () => {
     return particles;
   }, []);
 
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y =
-        Math.sin(state.clock.getElapsedTime() * 0.5) * 0.1;
-    }
-  });
-
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
       {/* Fire base logs */}

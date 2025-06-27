@@ -37,10 +37,10 @@ export const Scene: React.FC = () => {
       <Fireplace />
       {/* 통나무들을 모닥불 중심으로 원형 배치 */}
 
-      <LogBench position={[0, 0.1, 0]} rotation={[0, 0, 0]} />
-      <LogBench position={[0, 0.1, 2]} rotation={[0, 0, 0]} />
-      <LogBench position={[0, 0.1, 3]} rotation={[0, Math.PI / 2, 0]} />
-      <LogBench position={[0, 0.1, 1]} rotation={[0, Math.PI / 2, 0]} />
+      <LogBench position={[0, 0.1, -1.5]} rotation={[0, 0, 0]} />
+      <LogBench position={[6.5, 0.1, -1.5]} rotation={[0, 0, 0]} />
+      <LogBench position={[1.5, 0.1, 3]} rotation={[0, Math.PI / 2, 0]} />
+      <LogBench position={[1.5, 0.1, -3]} rotation={[0, Math.PI / 2, 0]} />
 
       <Character position={[4, 0, 0]} />
       <PortfolioBoard position={[-4, 0, -3]} />

@@ -9,19 +9,19 @@ export const Forest: React.FC = () => {
   // Pine trees (가장 많이 배치 - 60개)
   const pineTrees = useMemo(() => {
     const treePositions = [];
-    const numTrees = 60; // pine tree가 3배 더 많게
+    const numTrees = 30; // pine tree가 3배 더 많게
 
     for (let i = 0; i < numTrees; i++) {
       const angle = (i / numTrees) * Math.PI * 2;
-      const radius = 12 + Math.random() * 8; // 더 넓은 범위에 배치
-      const x = Math.cos(angle) * radius;
-      const z = Math.sin(angle) * radius;
-      const scale = 0.01 + Math.random(); // 작은 스케일로 조정
+      const radius = 12 + Math.random() * 6;
+      const x = Math.cos(angle) * radius - 5;
+      const z = Math.sin(angle) * radius + 6;
+      const scale = 0.6 + Math.random() * 0.1;
 
       treePositions.push({
-        position: new Vector3(x, 0, z),
+        position: new Vector3(x, -0.4, z),
         scale,
-        rotation: [0, Math.random() * Math.PI * 2, 0], // 랜덤 회전
+        rotation: [0, 0, 0], // 랜덤 회전
       });
     }
 
@@ -31,21 +31,21 @@ export const Forest: React.FC = () => {
   // Dead trees (20개)
   const deadTrees = useMemo(() => {
     const treePositions = [];
-    const numTrees = 20;
+    const numTrees = 10;
 
     for (let i = 0; i < numTrees; i++) {
-      const angle = (i / numTrees) * Math.PI * 2 + 0.5; // 약간 오프셋
+      const angle = (i / numTrees) * Math.PI * 2;
       const radius = 10 + Math.random() * 10;
-      const x = Math.cos(angle) * radius;
-      const z = Math.sin(angle) * radius;
-      const scale = 0.008 + Math.random(); // 작은 스케일로 조정
+      const x = Math.cos(angle) * radius - 5;
+      const z = Math.sin(angle) * radius + 6;
+      const scale = 0.6 + Math.random() * 0.1;
 
       // 중앙 모닥불 주변은 피하기
-      if (Math.sqrt(x * x + z * z) > 6) {
+      if (Math.sqrt(x * x + z * z) > 4) {
         treePositions.push({
           position: new Vector3(x, 0, z),
           scale,
-          rotation: [0, Math.random() * Math.PI * 2, 0],
+          rotation: [0, 0, 0],
         });
       }
     }
@@ -59,16 +59,16 @@ export const Forest: React.FC = () => {
     const numGrass = 40;
 
     for (let i = 0; i < numGrass; i++) {
-      const x = (Math.random() - 0.5) * 35; // -17.5 ~ 17.5 범위
-      const z = (Math.random() - 0.5) * 35; // -17.5 ~ 17.5 범위
-      const scale = 0.3 + Math.random(); // 적당한 크기
+      const x = (Math.random() - 0.5) * 20;
+      const z = (Math.random() - 0.5) * 20;
+      const scale = 1 + Math.random();
 
       // 중앙 모닥불 주변은 피하기
-      if (Math.sqrt(x * x + z * z) > 4) {
+      if (Math.sqrt(x * x + z * z) > 7) {
         grassPositions.push({
-          position: new Vector3(x, 0, z),
+          position: new Vector3(x, -0.35, z),
           scale,
-          rotation: [0, Math.random() * Math.PI * 2, 0],
+          rotation: [0, 0, 0],
         });
       }
     }
@@ -97,7 +97,7 @@ export const Forest: React.FC = () => {
       rockPositions.push({
         position: new Vector3(pos[0], pos[1], pos[2]),
         scale: 0.5 + Math.random() * 0.8,
-        rotation: [0, Math.random() * Math.PI * 2, 0],
+        rotation: [0, 0, 0],
       });
     });
 
@@ -111,7 +111,7 @@ export const Forest: React.FC = () => {
         rockPositions.push({
           position: new Vector3(x, 0.1 + Math.random() * 0.2, z),
           scale: 0.4 + Math.random() * 0.6,
-          rotation: [0, Math.random() * Math.PI * 2, 0],
+          rotation: [0, 0, 0],
         });
       }
     }

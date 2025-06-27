@@ -112,7 +112,11 @@ export const Player: React.FC = () => {
       />
 
       {/* 그림자를 위한 바닥 마커 */}
-      <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <mesh
+        position={[0, -0.58, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
         <circleGeometry args={[0.4, 16]} />
         <meshStandardMaterial color="#333333" transparent opacity={0.3} />
       </mesh>
