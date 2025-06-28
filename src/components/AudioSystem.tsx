@@ -9,6 +9,11 @@ export const AudioSystem: React.FC = () => {
   const { setLofiMusicPlaying } = useGameStore();
 
   const playFireSound = useCallback(() => {
+    // Prevent duplicate playback
+    if (fireSoundRef.current && !fireSoundRef.current.paused) {
+      console.log("Fire sound is already playing");
+      return;
+    }
     try {
       const fireAudio = new Audio("/sounds/fire.mp3");
       fireAudio.loop = true;
@@ -32,7 +37,10 @@ export const AudioSystem: React.FC = () => {
                 fireSoundRef.current = fireAudio;
               });
               document.removeEventListener("click", handleFirstUserInteraction);
-              document.removeEventListener("keydown", handleFirstUserInteraction);
+              document.removeEventListener(
+                "keydown",
+                handleFirstUserInteraction
+              );
             };
 
             document.addEventListener("click", handleFirstUserInteraction);
@@ -53,14 +61,17 @@ export const AudioSystem: React.FC = () => {
   }, []);
 
   const stopLofiMusic = useCallback(() => {
-    console.log("stopLofiMusic called, musicAudioRef.current:", musicAudioRef.current);
+    console.log(
+      "stopLofiMusic called, musicAudioRef.current:",
+      musicAudioRef.current
+    );
     if (musicAudioRef.current) {
       musicAudioRef.current.pause();
       musicAudioRef.current.currentTime = 0;
       musicAudioRef.current = null;
       setLofiMusicPlaying(false);
       console.log("Lofi music stopped");
-      
+
       // Restart fire sound when lofi music stops
       playFireSound();
     } else {
@@ -80,7 +91,7 @@ export const AudioSystem: React.FC = () => {
 
     // Load and play actual music file from public/sounds folder
     try {
-      const audio = new Audio("/sounds/lofimusic.wav");
+      const audio = new Audio("/sounds/lofimusic.mp3");
       audio.loop = true;
       audio.volume = 0.3; // Set volume to 30% for ambient background
 
@@ -104,7 +115,10 @@ export const AudioSystem: React.FC = () => {
                 setLofiMusicPlaying(true);
               });
               document.removeEventListener("click", handleFirstUserInteraction);
-              document.removeEventListener("keydown", handleFirstUserInteraction);
+              document.removeEventListener(
+                "keydown",
+                handleFirstUserInteraction
+              );
             };
 
             document.addEventListener("click", handleFirstUserInteraction);
@@ -131,16 +145,16 @@ export const AudioSystem: React.FC = () => {
     };
 
     initAudio();
-    
+
     console.log("Adding event listeners for playLofiMusic and stopLofiMusic");
-    window.addEventListener('playLofiMusic', playLofiMusic);
-    window.addEventListener('stopLofiMusic', stopLofiMusic);
+    window.addEventListener("playLofiMusic", playLofiMusic);
+    window.addEventListener("stopLofiMusic", stopLofiMusic);
 
     return () => {
       console.log("Removing event listeners");
-      window.removeEventListener('playLofiMusic', playLofiMusic);
-      window.removeEventListener('stopLofiMusic', stopLofiMusic);
-      
+      window.removeEventListener("playLofiMusic", playLofiMusic);
+      window.removeEventListener("stopLofiMusic", stopLofiMusic);
+
       if (audioContextRef.current) {
         audioContextRef.current.close();
       }
@@ -205,7 +219,6 @@ export const AudioSystem: React.FC = () => {
 
     fireAudioRef.current = fireOscillators[0].oscillator;
   };
-
 
   return null; // This component doesn't render anything visible
 };

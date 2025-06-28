@@ -64,7 +64,7 @@ export const Scene: React.FC = () => {
       />
 
       <Sky
-        sunPosition={[10000, -450, 10000]}
+        sunPosition={[10000, -500, 10000]}
         turbidity={60}
         rayleigh={3}
         mieCoefficient={0.005}

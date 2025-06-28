@@ -89,10 +89,7 @@ export const UI: React.FC = () => {
 
       {/* Instructions */}
       <div className="instructions">
-        <p>
-          WASD로 이동 • 통나무를 클릭해서 앉기 • 캐릭터와 대화 • 포트폴리오
-          게시판 확인
-        </p>
+        <p>Talk to the character • Check out the portfolio board</p>
       </div>
     </div>
   );

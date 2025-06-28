@@ -33,25 +33,23 @@ export default function HankAni(props) {
   const getMusicOption = () => {
     if (isPlayingLofiMusic) {
       return {
-        text: "노래를 꺼주세요",
+        text: "Stop music",
         action: () => {
-          // AudioSystem에서 lofimusic.wav 중지
           console.log("Dispatching stopLofiMusic event");
           window.dispatchEvent(new CustomEvent("stopLofiMusic"));
           openCharacterDialog({
-            text: "음악을 꺼드렸어요. 이제 편안한 불소리와 함께 휴식을 취하세요. 다시 음악이 필요하시면 언제든 말씀해주세요.",
+            text: "The music is off now. Enjoy the relaxing sound of the campfire. If you want music again, just let me know!",
             options: [],
           });
         },
       };
     } else {
       return {
-        text: "노래를 틀어주세요",
+        text: "Play music",
         action: () => {
-          // AudioSystem에서 lofimusic.wav 재생
           window.dispatchEvent(new CustomEvent("playLofiMusic"));
           openCharacterDialog({
-            text: "좋은 음악을 틀어드렸어요! 편안한 lofi 음악과 함께 불가를 즐기세요. 음악이 마음에 안 드시면 언제든 말씀해주세요.",
+            text: "I've turned on some lofi music. Let's enjoy the campfire together. If you don't like the music, just ask me to turn it off anytime.",
             options: [],
           });
         },
@@ -61,19 +59,19 @@ export default function HankAni(props) {
 
   const handleClick = () => {
     openCharacterDialog({
-      text: "안녕하세요! 저는 이 캠핑장의 주인이에요. 무엇을 도와드릴까요?",
+      text: "Hey there! Welcome to my virtual campsite. How can I help you today?",
       options: [
         {
-          text: "당신에 대해 알려주세요",
+          text: "Tell me about yourself",
           action: () => {
             openCharacterDialog({
-              text: "저는 웹 개발자이자 3D 아티스트입니다. 이 평화로운 공간에서 창작 활동을 하며 지내고 있어요. 통나무에 앉아서 불을 바라보며 명상하는 걸 좋아합니다.",
+              text: "I'm Hank Kim, a frontend developer passionate about React and Three.js. If you're curious about my work, check out the portfolio board behind you.",
               options: [
                 {
-                  text: "멋지네요!",
+                  text: "That's awesome!",
                   action: () => {
                     openCharacterDialog({
-                      text: "감사합니다! 이 곳에서 편안히 쉬어가세요. 통나무에 앉아서 불소리와 음악을 들으며 휴식을 취해보세요.",
+                      text: "Thank you! Feel free to relax here. Sit around the campfire, listen to the fire and music, and enjoy your time.",
                       options: [],
                     });
                   },
@@ -83,10 +81,10 @@ export default function HankAni(props) {
           },
         },
         {
-          text: "이 곳에 대해 알려주세요",
+          text: "Tell me about this place",
           action: () => {
             openCharacterDialog({
-              text: "이곳은 저만의 특별한 캠핑장이에요. 통나무에 앉아서 불을 바라보며 lofi 음악을 들을 수 있고, 포트폴리오 게시판도 있어요. 공부하거나 휴식을 취하기 좋은 곳입니다.",
+              text: "This space was created for people who enjoy studying with lofi music or the sound of a campfire. I wanted a unique way to showcase my portfolio, so I built this virtual campsite.",
               options: [],
             });
           },
