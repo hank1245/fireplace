@@ -18,7 +18,7 @@ export const Player: React.FC = () => {
 
   const playerPosition = useRef(new Vector3(0, 0.5, 8));
   const playerVelocity = useRef(new Vector3());
-  const speed = 5;
+  const speed = 3;
 
   // 키보드 이벤트 처리
   useEffect(() => {
@@ -91,13 +91,6 @@ export const Player: React.FC = () => {
 
     // 게임 스토어에 플레이어 위치 업데이트
     setPlayerPosition(playerPosition.current.clone());
-
-    // 카메라 제어는 OrbitControls가 담당하므로 제거
-    // const targetCameraPosition = playerPosition.current
-    //   .clone()
-    //   .add(cameraOffset);
-    // camera.position.lerp(targetCameraPosition, 2 * delta);
-    // camera.lookAt(playerPosition.current);
   });
 
   return (
@@ -110,16 +103,6 @@ export const Player: React.FC = () => {
         castShadow
         receiveShadow
       />
-
-      {/* 그림자를 위한 바닥 마커 */}
-      <mesh
-        position={[0, -0.58, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        receiveShadow
-      >
-        <circleGeometry args={[0.4, 16]} />
-        <meshStandardMaterial color="#333333" transparent opacity={0.3} />
-      </mesh>
     </group>
   );
 };

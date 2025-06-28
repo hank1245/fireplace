@@ -13,7 +13,6 @@ function App() {
         camera={{ position: [0, 5, 10], fov: 50 }}
         gl={{ antialias: true }}
       >
-        {/* Zoom 기능만 활성화된 OrbitControls */}
         <OrbitControls
           enableRotate={true}
           enablePan={false}
