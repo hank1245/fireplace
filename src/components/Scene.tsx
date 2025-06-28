@@ -86,9 +86,9 @@ export const Scene: React.FC = () => {
       {/* 불 파티클 시스템 */}
       <FireParticles position={[-1.6, -0.33, -1]} />
 
-      {/* <Character position={[4, 0, 0]} />
-      <PortfolioBoard position={[-4, 0, -3]} /> */}
-      {/* <Player /> */}
+      <Character position={[-1.4, 0, 2]} />
+      <PortfolioBoard position={[1, 0, 2]} />
+      <Player />
       {/* <AudioSystem /> */}
     </>
   );

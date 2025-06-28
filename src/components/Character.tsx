@@ -57,6 +57,7 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
         ref={monkRef}
         position={[0, 0, 0]}
         scale={[0.8, 0.8, 0.8]}
+        rotation={[0, -Math.PI / 1.2, 0]}
         castShadow
         receiveShadow
       />

@@ -10,7 +10,7 @@ export const PortfolioBoard: React.FC<PortfolioBoardProps> = ({ position }) => {
   const { togglePortfolio } = useGameStore();
 
   return (
-    <group position={position}>
+    <group position={position} rotation={[0, -Math.PI / 1.25, 0]}>
       {/* Board post */}
       <mesh position={[0, 1, -0.1]} castShadow>
         <cylinderGeometry args={[0.05, 0.05, 2]} />
@@ -30,7 +30,7 @@ export const PortfolioBoard: React.FC<PortfolioBoardProps> = ({ position }) => {
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
         onClick={togglePortfolio}
-        scale={hovered ? 1.05 : 1}
+        scale={1}
       >
         <boxGeometry args={[1.5, 2, 0.1]} />
         <meshStandardMaterial
@@ -42,7 +42,7 @@ export const PortfolioBoard: React.FC<PortfolioBoardProps> = ({ position }) => {
       {/* Board frame */}
       <mesh position={[0, 1.5, 0.05]}>
         <boxGeometry args={[1.6, 2.1, 0.05]} />
-        <meshStandardMaterial color="#4a3728" />
+        <meshStandardMaterial color={hovered ? "#A0522D" : "#654321"} />
       </mesh>
 
       {/* "Portfolio" text simulation with small boxes */}

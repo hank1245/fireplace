@@ -16,7 +16,7 @@ export const Player: React.FC = () => {
     d: false,
   });
 
-  const playerPosition = useRef(new Vector3(0, 0.5, 8));
+  const playerPosition = useRef(new Vector3(0, 0, 0));
   const playerVelocity = useRef(new Vector3());
   const speed = 3;
 
@@ -98,8 +98,8 @@ export const Player: React.FC = () => {
       {/* Knight 모델 */}
       <KnightCharacter
         ref={knightRef}
-        position={[0, -0.6, 0]}
-        scale={[1, 1, 1]}
+        position={[0, 0, 0]}
+        scale={1}
         castShadow
         receiveShadow
       />
