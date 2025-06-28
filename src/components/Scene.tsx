@@ -43,11 +43,11 @@ export const Scene: React.FC = () => {
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
-        position={[-2.88, 2, -2.95]} // 초기 카메라 위치 (x, y, z)
+        position={[-2.96, 2.23, -6]} // 초기 카메라 위치 (x, y, z)
         fov={75}
         near={0.1}
         far={1000}
-        rotation={[-3, -0.7, -3]}
+        rotation={[-3, -0.45, -3]}
       />
 
       {/* 카메라 컨트롤 - 바라보는 대상 지정 */}
@@ -86,7 +86,7 @@ export const Scene: React.FC = () => {
       <FireParticles position={[-1.6, -0.33, -1]} />
 
       <HankAni position={[0.8, 0.1, -1.5]} rotation={[0, -Math.PI / 2, 0]} />
-      <PortfolioBoard position={[1, 0, 2]} />
+      <PortfolioBoard position={[0.2, 0, 1]} />
       <AudioSystem />
     </>
   );

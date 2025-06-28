@@ -37,7 +37,7 @@ export default function HankAni(props) {
         action: () => {
           // AudioSystem에서 lofimusic.wav 중지
           console.log("Dispatching stopLofiMusic event");
-          window.dispatchEvent(new CustomEvent('stopLofiMusic'));
+          window.dispatchEvent(new CustomEvent("stopLofiMusic"));
           openCharacterDialog({
             text: "음악을 꺼드렸어요. 이제 편안한 불소리와 함께 휴식을 취하세요. 다시 음악이 필요하시면 언제든 말씀해주세요.",
             options: [],
@@ -49,7 +49,7 @@ export default function HankAni(props) {
         text: "노래를 틀어주세요",
         action: () => {
           // AudioSystem에서 lofimusic.wav 재생
-          window.dispatchEvent(new CustomEvent('playLofiMusic'));
+          window.dispatchEvent(new CustomEvent("playLofiMusic"));
           openCharacterDialog({
             text: "좋은 음악을 틀어드렸어요! 편안한 lofi 음악과 함께 불가를 즐기세요. 음악이 마음에 안 드시면 언제든 말씀해주세요.",
             options: [],
