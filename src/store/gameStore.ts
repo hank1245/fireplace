@@ -16,16 +16,12 @@ interface GameState {
   showCharacterDialog: boolean;
   characterDialog: CharacterDialog;
   isPlayingMusic: boolean;
-  currentSeat: string | null;
-  playerPosition: Vector3;
 
   // Actions
   togglePortfolio: () => void;
   openCharacterDialog: (dialog: CharacterDialog) => void;
   closeCharacterDialog: () => void;
   toggleMusic: () => void;
-  setSeat: (seatId: string | null) => void;
-  setPlayerPosition: (position: Vector3) => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -52,8 +48,4 @@ export const useGameStore = create<GameState>((set) => ({
 
   toggleMusic: () =>
     set((state) => ({ isPlayingMusic: !state.isPlayingMusic })),
-
-  setSeat: (seatId) => set({ currentSeat: seatId }),
-
-  setPlayerPosition: (position) => set({ playerPosition: position }),
 }));

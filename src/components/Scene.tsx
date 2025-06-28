@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { Character } from "./Character";
 import { PortfolioBoard } from "./PortfolioBoard";
 import { AudioSystem } from "./AudioSystem";
-import { Player } from "./Player";
 import { Sky, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import Map from "./models/Map";
 import { AmbientLight, PointLightHelper } from "three";
 import { useHelper } from "@react-three/drei";
 import { FireParticles } from "./FireParticles";
+import HankAni from "./models/Hank_ani";
 
 export const Scene: React.FC = () => {
   const cameraRef = useRef<any>(null);
@@ -58,8 +58,8 @@ export const Scene: React.FC = () => {
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
-        minDistance={5}
-        maxDistance={50}
+        minDistance={1}
+        maxDistance={30}
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2} // 90도까지만 회전 (땅 아래로 못 봄)
       />
@@ -87,8 +87,8 @@ export const Scene: React.FC = () => {
       <FireParticles position={[-1.6, -0.33, -1]} />
 
       <Character position={[-1.4, 0, 2]} />
+      <HankAni position={[0.8, 0.1, -1.5]} rotation={[0, -Math.PI / 2, 0]} />
       <PortfolioBoard position={[1, 0, 2]} />
-      <Player />
       {/* <AudioSystem /> */}
     </>
   );
