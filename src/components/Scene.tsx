@@ -59,7 +59,7 @@ export const Scene: React.FC = () => {
         enableZoom={true}
         enableRotate={true}
         minDistance={1}
-        maxDistance={30}
+        maxDistance={20}
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2} // 90도까지만 회전 (땅 아래로 못 봄)
       />
