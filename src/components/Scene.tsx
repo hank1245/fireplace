@@ -87,7 +87,7 @@ export const Scene: React.FC = () => {
 
       <HankAni position={[0.8, 0.1, -1.5]} rotation={[0, -Math.PI / 2, 0]} />
       <PortfolioBoard position={[1, 0, 2]} />
-      {/* <AudioSystem /> */}
+      <AudioSystem />
     </>
   );
 };

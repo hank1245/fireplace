@@ -17,7 +17,7 @@ export default function HankAni(props) {
   const { nodes, materials } = useGraph(clone);
   const { actions } = useAnimations(animations, group);
   const [hovered, setHovered] = useState(false);
-  const { openCharacterDialog } = useGameStore();
+  const { openCharacterDialog, isPlayingLofiMusic } = useGameStore();
 
   useEffect(() => {
     if (actions && actions["Armature|mixamo.com|Layer0"]) {
@@ -29,6 +29,35 @@ export default function HankAni(props) {
       }
     };
   }, [actions]);
+
+  const getMusicOption = () => {
+    if (isPlayingLofiMusic) {
+      return {
+        text: "노래를 꺼주세요",
+        action: () => {
+          // AudioSystem에서 lofimusic.wav 중지
+          console.log("Dispatching stopLofiMusic event");
+          window.dispatchEvent(new CustomEvent('stopLofiMusic'));
+          openCharacterDialog({
+            text: "음악을 꺼드렸어요. 이제 편안한 불소리와 함께 휴식을 취하세요. 다시 음악이 필요하시면 언제든 말씀해주세요.",
+            options: [],
+          });
+        },
+      };
+    } else {
+      return {
+        text: "노래를 틀어주세요",
+        action: () => {
+          // AudioSystem에서 lofimusic.wav 재생
+          window.dispatchEvent(new CustomEvent('playLofiMusic'));
+          openCharacterDialog({
+            text: "좋은 음악을 틀어드렸어요! 편안한 lofi 음악과 함께 불가를 즐기세요. 음악이 마음에 안 드시면 언제든 말씀해주세요.",
+            options: [],
+          });
+        },
+      };
+    }
+  };
 
   const handleClick = () => {
     openCharacterDialog({
@@ -62,6 +91,7 @@ export default function HankAni(props) {
             });
           },
         },
+        getMusicOption(),
       ],
     });
   };

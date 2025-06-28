@@ -16,12 +16,14 @@ interface GameState {
   showCharacterDialog: boolean;
   characterDialog: CharacterDialog;
   isPlayingMusic: boolean;
+  isPlayingLofiMusic: boolean;
 
   // Actions
   togglePortfolio: () => void;
   openCharacterDialog: (dialog: CharacterDialog) => void;
   closeCharacterDialog: () => void;
   toggleMusic: () => void;
+  setLofiMusicPlaying: (playing: boolean) => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -32,6 +34,7 @@ export const useGameStore = create<GameState>((set) => ({
     options: [],
   },
   isPlayingMusic: false,
+  isPlayingLofiMusic: false,
   currentSeat: null,
   playerPosition: new Vector3(0, 0.5, 8),
 
@@ -48,4 +51,7 @@ export const useGameStore = create<GameState>((set) => ({
 
   toggleMusic: () =>
     set((state) => ({ isPlayingMusic: !state.isPlayingMusic })),
+
+  setLofiMusicPlaying: (playing) =>
+    set({ isPlayingLofiMusic: playing }),
 }));

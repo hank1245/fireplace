@@ -1,9 +1,120 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
+import { useGameStore } from "../store/gameStore";
 
 export const AudioSystem: React.FC = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
   const fireAudioRef = useRef<OscillatorNode | null>(null);
   const musicAudioRef = useRef<HTMLAudioElement | null>(null);
+  const fireSoundRef = useRef<HTMLAudioElement | null>(null);
+  const { setLofiMusicPlaying } = useGameStore();
+
+  const playFireSound = useCallback(() => {
+    try {
+      const fireAudio = new Audio("/sounds/fire.mp3");
+      fireAudio.loop = true;
+      fireAudio.volume = 0.4; // Set volume to 40% for ambient fire sound
+
+      // Handle user interaction requirement for autoplay
+      const playPromise = fireAudio.play();
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log("Fire sound started playing");
+            fireSoundRef.current = fireAudio;
+          })
+          .catch((error) => {
+            console.log("Auto-play was prevented for fire sound:", error);
+            // Fallback to user-initiated play
+            const handleFirstUserInteraction = () => {
+              fireAudio.play().then(() => {
+                console.log("Fire sound started after user interaction");
+                fireSoundRef.current = fireAudio;
+              });
+              document.removeEventListener("click", handleFirstUserInteraction);
+              document.removeEventListener("keydown", handleFirstUserInteraction);
+            };
+
+            document.addEventListener("click", handleFirstUserInteraction);
+            document.addEventListener("keydown", handleFirstUserInteraction);
+          });
+      }
+    } catch (error) {
+      console.error("Error loading fire sound file:", error);
+    }
+  }, []);
+
+  const stopFireSound = useCallback(() => {
+    if (fireSoundRef.current) {
+      fireSoundRef.current.pause();
+      fireSoundRef.current.currentTime = 0;
+      console.log("Fire sound stopped");
+    }
+  }, []);
+
+  const stopLofiMusic = useCallback(() => {
+    console.log("stopLofiMusic called, musicAudioRef.current:", musicAudioRef.current);
+    if (musicAudioRef.current) {
+      musicAudioRef.current.pause();
+      musicAudioRef.current.currentTime = 0;
+      musicAudioRef.current = null;
+      setLofiMusicPlaying(false);
+      console.log("Lofi music stopped");
+      
+      // Restart fire sound when lofi music stops
+      playFireSound();
+    } else {
+      console.log("No music to stop");
+    }
+  }, [playFireSound, setLofiMusicPlaying]);
+
+  const playLofiMusic = useCallback(() => {
+    // Stop current music if playing
+    if (musicAudioRef.current) {
+      musicAudioRef.current.pause();
+      musicAudioRef.current.currentTime = 0;
+    }
+
+    // Stop fire sound when lofi music starts
+    stopFireSound();
+
+    // Load and play actual music file from public/sounds folder
+    try {
+      const audio = new Audio("/sounds/lofimusic.wav");
+      audio.loop = true;
+      audio.volume = 0.3; // Set volume to 30% for ambient background
+
+      // Handle user interaction requirement for autoplay
+      const playPromise = audio.play();
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log("Music started playing");
+            musicAudioRef.current = audio;
+            setLofiMusicPlaying(true);
+          })
+          .catch((error) => {
+            console.log("Auto-play was prevented:", error);
+            // Fallback to user-initiated play
+            const handleFirstUserInteraction = () => {
+              audio.play().then(() => {
+                console.log("Music started after user interaction");
+                musicAudioRef.current = audio;
+                setLofiMusicPlaying(true);
+              });
+              document.removeEventListener("click", handleFirstUserInteraction);
+              document.removeEventListener("keydown", handleFirstUserInteraction);
+            };
+
+            document.addEventListener("click", handleFirstUserInteraction);
+            document.addEventListener("keydown", handleFirstUserInteraction);
+          });
+      }
+    } catch (error) {
+      console.error("Error loading music file:", error);
+    }
+  }, [stopFireSound, setLofiMusicPlaying]);
 
   useEffect(() => {
     // Initialize audio context
@@ -12,21 +123,24 @@ export const AudioSystem: React.FC = () => {
         audioContextRef.current = new (window.AudioContext ||
           (window as any).webkitAudioContext)();
 
-        // Create fire crackling sound using Web Audio API
-        if (audioContextRef.current) {
-          createFireSound();
-        }
-
-        // Start playing music immediately
-        playLofiMusic();
+        // Start playing fire.mp3 automatically
+        playFireSound();
       } catch (error) {
         console.log("Audio context not supported");
       }
     };
 
     initAudio();
+    
+    console.log("Adding event listeners for playLofiMusic and stopLofiMusic");
+    window.addEventListener('playLofiMusic', playLofiMusic);
+    window.addEventListener('stopLofiMusic', stopLofiMusic);
 
     return () => {
+      console.log("Removing event listeners");
+      window.removeEventListener('playLofiMusic', playLofiMusic);
+      window.removeEventListener('stopLofiMusic', stopLofiMusic);
+      
       if (audioContextRef.current) {
         audioContextRef.current.close();
       }
@@ -34,8 +148,12 @@ export const AudioSystem: React.FC = () => {
         musicAudioRef.current.pause();
         musicAudioRef.current = null;
       }
+      if (fireSoundRef.current) {
+        fireSoundRef.current.pause();
+        fireSoundRef.current = null;
+      }
     };
-  }, []);
+  }, [playFireSound, playLofiMusic, stopLofiMusic]);
 
   const createFireSound = () => {
     if (!audioContextRef.current) return;
@@ -88,47 +206,6 @@ export const AudioSystem: React.FC = () => {
     fireAudioRef.current = fireOscillators[0].oscillator;
   };
 
-  // 통나무에 앉을 때 음악 제어는 제거 (항상 재생)
-
-  const playLofiMusic = () => {
-    // Load and play actual music file from public/music folder
-    try {
-      const audio = new Audio("/music/lofimusic.wav");
-      audio.loop = true;
-      audio.volume = 0.3; // Set volume to 30% for ambient background
-
-      // Handle user interaction requirement for autoplay
-      const playPromise = audio.play();
-
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log("Music started playing");
-            musicAudioRef.current = audio;
-          })
-          .catch((error) => {
-            console.log("Auto-play was prevented:", error);
-            // Fallback to user-initiated play
-            const handleFirstUserInteraction = () => {
-              audio.play().then(() => {
-                console.log("Music started after user interaction");
-                musicAudioRef.current = audio;
-              });
-              document.removeEventListener("click", handleFirstUserInteraction);
-              document.removeEventListener(
-                "keydown",
-                handleFirstUserInteraction
-              );
-            };
-
-            document.addEventListener("click", handleFirstUserInteraction);
-            document.addEventListener("keydown", handleFirstUserInteraction);
-          });
-      }
-    } catch (error) {
-      console.error("Error loading music file:", error);
-    }
-  };
 
   return null; // This component doesn't render anything visible
 };
