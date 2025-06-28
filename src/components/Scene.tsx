@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Character } from "./Character";
 import { PortfolioBoard } from "./PortfolioBoard";
 import { AudioSystem } from "./AudioSystem";
 import { Sky, OrbitControls, PerspectiveCamera } from "@react-three/drei";
@@ -86,7 +85,6 @@ export const Scene: React.FC = () => {
       {/* 불 파티클 시스템 */}
       <FireParticles position={[-1.6, -0.33, -1]} />
 
-      <Character position={[-1.4, 0, 2]} />
       <HankAni position={[0.8, 0.1, -1.5]} rotation={[0, -Math.PI / 2, 0]} />
       <PortfolioBoard position={[1, 0, 2]} />
       {/* <AudioSystem /> */}
