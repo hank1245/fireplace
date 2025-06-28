@@ -51,7 +51,7 @@ export const PortfolioBoard: React.FC<PortfolioBoardProps> = ({ position }) => {
 
       {/* "Portfolio" text */}
       <Text
-        position={[0, 2.2, 0.11]}
+        position={[0, 2.12, 0.11]}
         fontSize={0.2}
         color="#fff"
         anchorX="center"

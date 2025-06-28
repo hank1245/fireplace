@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGameStore } from "../store/gameStore";
@@ -10,9 +10,9 @@ interface CharacterProps {
 
 export const Character: React.FC<CharacterProps> = ({ position }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const { openCharacterDialog } = useGameStore();
-
   const monkRef = useRef<THREE.Group>(null);
+  const [hovered, setHovered] = useState(false);
+  const { openCharacterDialog } = useGameStore();
 
   const handleClick = () => {
     openCharacterDialog({
@@ -51,7 +51,31 @@ export const Character: React.FC<CharacterProps> = ({ position }) => {
   };
 
   return (
-    <group ref={groupRef} position={position} onClick={handleClick}>
+    <group ref={groupRef} position={position}>
+      {/* Hover 효과를 위한 투명한 박스 */}
+      <mesh
+        position={[0, 0.5, 0]}
+        onClick={handleClick}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
+        <boxGeometry args={[1.5, 1.5, 1.5]} />
+        <meshBasicMaterial transparent opacity={0} />
+      </mesh>
+
+      {/* Hover 시 나타나는 색상 표시 */}
+      {hovered && (
+        <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[0.7, 32]} />
+          <meshBasicMaterial
+            color="#A0522D"
+            transparent
+            opacity={0.5}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
+
       {/* Monk model */}
       <MonkCharacter
         ref={monkRef}
